@@ -1,0 +1,7 @@
+<snippet>
+    <content><![CDATA[/**
+ * ${1:undocumented function}
+ *
+ **/]]></content>
+    <tabTrigger>small.comment</tabTrigger>
+</snippet>
