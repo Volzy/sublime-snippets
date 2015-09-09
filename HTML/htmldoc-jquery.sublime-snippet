@@ -1,0 +1,32 @@
+<snippet>
+	<content><![CDATA[
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>$1</title>
+		<meta charset="utf8">
+		<meta name="viewport" content="width=device-width">
+		<meta name="og:title" content="$2">
+		<meta name="og:description" content="$3">
+		<meta name="og:image" content="$4">
+
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+	</head>
+
+	<body>
+		<div class="wrapper">
+			$5
+		</div>
+
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			\$(function() {
+				/* Quick'n'dirty jquery stuff here */
+			});
+		</script>
+	</body>
+</html>
+]]></content>
+	<tabTrigger>htmldoc.jquery</tabTrigger>
+	<scope>source.html</scope>
+</snippet>

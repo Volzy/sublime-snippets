@@ -1,0 +1,10 @@
+<snippet>
+    <content><![CDATA[/**
+ * ${4:undocumented function}
+ *
+ * @var ${1}
+ * @return ${2:void}
+ * @author ${PHPDOC_AUTHOR:$TM_FULLNAME}$3
+ **/]]></content>
+    <tabTrigger>comment</tabTrigger>
+</snippet>

@@ -1,0 +1,114 @@
+<snippet>
+	<content><![CDATA[
+var gulp = require('gulp'),
+	sass = require('gulp-sass'),
+	autoprefixer = require('gulp-autoprefixer'),
+	minifycss = require('gulp-minify-css'),
+	jshint = require('gulp-jshint'),
+    uglify = require('gulp-uglify'),
+    imagemin = require('gulp-imagemin'),
+    rename = require('gulp-rename'),
+    concat = require('gulp-concat'),
+    notify = require('gulp-notify'),
+    cache = require('gulp-cache'),
+    del = require('del');
+
+var cssDir = {
+		'source' = 'assets/sass';
+		'target' = 'public/css';
+};
+
+var jsDir = {
+		'source' = 'assets/js';
+		'target' = 'public/js';
+};
+
+var imgDir = {
+		'source' = 'assets/images';
+		'target' = 'public/images';
+};
+
+
+/**
+ * This task takes all sass files from the source directory, auto-prefixing files according to specifications
+ * and saves them as both minified and non-minifed versions
+ *
+ */
+gulp.task('styles', function() {
+	return gulp.src(cssDir.source+'/*.scss')
+		.pipe(sass())
+		.pipe(autoprefixer{ browsers: ['last 2 versions', 'ie 9'] })
+		.pipe(gulp.dest(cssDir.target))
+		.pipe(rename({suffix: '.min'}))
+		.pipe(minifycss())
+		.pipe(gulp.dest(cssDir.target))
+		.pipe(notify({message: 'Styles task complete'}));
+});
+
+
+
+/**
+ * This task concatenate javascripts inside the source folder, saves them as both minified and non-minified
+ *
+ */
+gulp.task('scripts', function() {
+	return gulp.src(jsDir.source)
+		.pipe(concat(jsDir.source+'/*.js))
+		.pipe(gulp.dest(jsDir.target))
+		.pipe(rename({suffix: '.min'}))
+		.pipe(uglify())
+		.pipe(gupl.dest(jsDir.target))
+		.pipe(notify({message: 'Scripts task complete'}));
+});
+
+
+/**
+ * This task takes images from source directory and compress/optimize images
+ * which hasn't been compressed before.
+ *
+ */
+gulp.task('images', function() {
+	return gulp.src(imgDir.source/**/*)
+		.pipe(cache(imagemin({optimizationLevel: 5, progressive: true, interlaced: true})))
+		.pipe(gulp.dest(imgDir.target))
+		.pipe(notify({message: 'Image compression task complete'}));
+});
+
+
+/**
+ * Clean up target directories to remove legacy files
+ *
+ */
+gulp.task('clean', function(cb) {
+	del([cssDir.target, jsDir.target, imgDir.target], cb);
+});
+
+
+/**
+ * Set up a default task to clean target directories and launch the other tasks
+ *
+ */
+gulp.task('default', ['clean'], function() {
+	gulp.start('styles', 'javascripts', 'images');
+});
+
+
+/**
+ * Set up a watch fask to listen for changes to files and run tasks
+ *
+ */
+gulp.task('watch', function() {
+	gulp.watch(cssDir.source+'/**/*.scss', ['styles']);
+	gulp.watch(jsDir.source+'/**/*.js', ['scripts']);
+	gulp.watch(imgDir.source+'/**/*.{jpg,png}', ['images']);
+});
+
+
+
+]]></content>
+	<tabTrigger>gulpfile</tabTrigger>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<!-- <tabTrigger>hello</tabTrigger> -->
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+</snippet>
