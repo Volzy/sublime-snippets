@@ -14,18 +14,18 @@ var gulp = require('gulp'),
     del = require('del');
 
 var cssDir = {
-		'source' = 'assets/sass';
-		'target' = 'public/css';
+		source: 'assets/sass',
+		target: 'public/css'
 };
 
 var jsDir = {
-		'source' = 'assets/js';
-		'target' = 'public/js';
+		source: 'assets/js',
+		target: 'public/js'
 };
 
 var imgDir = {
-		'source' = 'assets/images';
-		'target' = 'public/images';
+		source: 'assets/images',
+		target: 'public/images'
 };
 
 
@@ -37,7 +37,7 @@ var imgDir = {
 gulp.task('styles', function() {
 	return gulp.src(cssDir.source+'/*.scss')
 		.pipe(sass())
-		.pipe(autoprefixer{ browsers: ['last 2 versions', 'ie 9'] })
+		.pipe(autoprefixer({ browsers: ['last 2 versions', 'ie 9'] }))
 		.pipe(gulp.dest(cssDir.target))
 		.pipe(rename({suffix: '.min'}))
 		.pipe(minifycss())
@@ -53,11 +53,11 @@ gulp.task('styles', function() {
  */
 gulp.task('scripts', function() {
 	return gulp.src(jsDir.source)
-		.pipe(concat(jsDir.source+'/*.js))
+		.pipe(concat(jsDir.source+'/*.js'))
 		.pipe(gulp.dest(jsDir.target))
 		.pipe(rename({suffix: '.min'}))
 		.pipe(uglify())
-		.pipe(gupl.dest(jsDir.target))
+		.pipe(gulp.dest(jsDir.target))
 		.pipe(notify({message: 'Scripts task complete'}));
 });
 
@@ -68,7 +68,7 @@ gulp.task('scripts', function() {
  *
  */
 gulp.task('images', function() {
-	return gulp.src(imgDir.source/**/*)
+	return gulp.src(imgDir.source+'/**/*')
 		.pipe(cache(imagemin({optimizationLevel: 5, progressive: true, interlaced: true})))
 		.pipe(gulp.dest(imgDir.target))
 		.pipe(notify({message: 'Image compression task complete'}));
@@ -79,8 +79,8 @@ gulp.task('images', function() {
  * Clean up target directories to remove legacy files
  *
  */
-gulp.task('clean', function(cb) {
-	del([cssDir.target, jsDir.target, imgDir.target], cb);
+gulp.task('clean', ['clean'], function(cb) {
+	del([cssDir.target, jsDir.target, imgDir.target], cb)
 });
 
 
@@ -88,8 +88,8 @@ gulp.task('clean', function(cb) {
  * Set up a default task to clean target directories and launch the other tasks
  *
  */
-gulp.task('default', ['clean'], function() {
-	gulp.start('styles', 'javascripts', 'images');
+gulp.task('default', function() {
+	gulp.start('styles', 'scripts', 'images', 'watch');
 });
 
 
@@ -102,8 +102,6 @@ gulp.task('watch', function() {
 	gulp.watch(jsDir.source+'/**/*.js', ['scripts']);
 	gulp.watch(imgDir.source+'/**/*.{jpg,png}', ['images']);
 });
-
-
 
 ]]></content>
 	<tabTrigger>gulpfile</tabTrigger>
